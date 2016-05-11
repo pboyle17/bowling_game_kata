@@ -1,0 +1,23 @@
+{
+  "name": "bowling_game_kata",
+  "version": "1.0.0",
+  "description": "bowling game kata tdd",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pboyle17/bowling_game_kata.git"
+  },
+  "author": "pboyle17",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pboyle17/bowling_game_kata/issues"
+  },
+  "homepage": "https://github.com/pboyle17/bowling_game_kata#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
+}
