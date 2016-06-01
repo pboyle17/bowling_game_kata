@@ -3,20 +3,29 @@ bowling = {
   calculateScore:function(arr){
     arr.forEach(function(roll){
       bowling.frames[bowling.currentFrame].pins+=roll;
-      if(bowling.frames[bowling.lastFrame()].strike==true){
+
+      if(bowling.frames[bowling.lastFrame()].strike==true && bowling.currentFrame !='ten'){
         bowling.frames[bowling.lastFrame()].pins+=roll;
       }
       if(bowling.frames[bowling.twoFramesAgo()].strike==true){
         bowling.frames[bowling.twoFramesAgo()].pins+=roll;
       }
-      if(bowling.topOfFrame==false){
-        bowling.nextFrame();
+      if(bowling.frames[bowling.lastFrame()].spare == true && bowling.currentFrame != 'ten'){
+        bowling.frames[bowling.lastFrame()].pins+=roll;
       }
-      if(bowling.isStrike(roll)){
+
+      if(bowling.isStrike()&&bowling.currentFrame!='ten'){
         bowling.frames[bowling.currentFrame].strike = true;
-        bowling.nextFrame();
       }
-      bowling.topOfFrame=!bowling.topOfFrame;
+      if(bowling.isSpare()&&bowling.currentFrame!='ten'){
+        bowling.frames[bowling.currentFrame].spare = true;
+      }
+      if(bowling.topOfFrame==false || bowling.isStrike()==true){
+          bowling.nextFrame();
+      } else {
+        bowling.topOfFrame = !bowling.topOfFrame;
+      }
+      console.log(bowling.sum());
     });
     return bowling.sum();
   },
@@ -142,8 +151,8 @@ bowling = {
         return 'nine';
     }
   },
-  isStrike:function(roll){
-    if(roll==10 && bowling.topOfFrame==true){
+  isStrike:function(){
+    if(bowling.frames[bowling.currentFrame].pins == 10 && bowling.topOfFrame==true){
       return true;
     } else {
       return false;

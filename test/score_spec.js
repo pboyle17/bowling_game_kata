@@ -82,6 +82,26 @@ describe('calculateScore',function(){
     resetGame()
     expect(bowling.calculateScore([10,10,10,10,10,10,10,10,10,10,10,10])).to.equal(300);
   });
+  it('should return 269 for a perfect game and a spare and gutterball in the 10',function(){
+    resetGame();
+    expect(bowling.calculateScore([10,10,10,10,10,10,10,10,10,9,1,0])).to.equal(269);
+  });
+  it('should return a score of 270 for nine perfect Frames',function(){
+    resetGame();
+    expect(bowling.calculateScore([10,10,10,10,10,10,10,10,10])).to.equal(210);
+  });
+  it('should return a score of 60 for three perfect Frames',function(){
+    resetGame();
+    expect(bowling.calculateScore([10,10,10])).to.equal(60);
+  });
+  it('should return a score of 90 for four perfect Frames',function(){
+    resetGame();
+    expect(bowling.calculateScore([10,10,10,10])).to.equal(90);
+  });
+  it('should return a score of 57 for three spares with first roll of nines and nine and a gutter',function(){
+    resetGame();
+    expect(bowling.calculateScore([9,1,9,1,9,1,9,0]))
+  });
 });
 
 describe('nextFrame',function(){
@@ -370,10 +390,10 @@ describe('isStrike',function(){
     bowling.currentFrame = 'one';
   };
 
-  it('should return true if the roll was a strike and false if the roll isnt a strike',function(){
+  it('should return true if current pins in frame is 10 and its the topOfTheFrame',function(){
     resetGame();
-    var roll = 10;
-    expect(bowling.isStrike(roll)).to.equal(true);
+    bowling.frames.one.pins = 10;
+    expect(bowling.isStrike()).to.equal(true);
   });
 
   it('should return false if the roll was a 10 and its the bottom of the frame',function(){
@@ -461,74 +481,78 @@ describe('twoRollsAgo',function(){
     expect(bowling.twoFramesAgo()).to.equal('one');
   });
 
-  describe('should return true if frame is a strike and false if not a strike',function(){
-    var bowling = require('../score_methods/score').bowling;
-    var resetGame = function(){
-      bowling.frames={
-        one:{
-          pins:0,
-          strike:false,
-          spare:false
-        },
-        two:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        three:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        four:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        five:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        six:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        seven:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        eight:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        nine:{
-          pins:0,
-          strike:false,
-          spare:false,
-        },
-        ten:{
-          pins:0,
-          strike:false,
-          spare:false,
-        }
-      };
-      bowling.topOfFrame = true;
-      bowling.currentFrame = 'one';
-    };
 
-    it('should return true if last two rolls add up to 10 and it is the bottom of the frame',function(){
-      bowling.frames.one.pins = 10;
-      bowling.topOfFrame=false;
-      expect(bowling.isSpare()).to.equal(true);
-    });
-    it('should return false if the last two rolls add up to 10 and it is the top of the frame',function(){
-      bowling.topOfFrame = true
-      bowling.frames.one.pins = 10;
-      expect(bowling.isSpare()).to.equal(false);
-    })
+});
+
+describe('isSpare',function(){
+  var bowling = require('../score_methods/score').bowling;
+  var resetGame = function(){
+    bowling.frames={
+      one:{
+        pins:0,
+        strike:false,
+        spare:false
+      },
+      two:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      three:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      four:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      five:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      six:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      seven:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      eight:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      nine:{
+        pins:0,
+        strike:false,
+        spare:false,
+      },
+      ten:{
+        pins:0,
+        strike:false,
+        spare:false,
+      }
+    };
+    bowling.topOfFrame = true;
+    bowling.currentFrame = 'one';
+  };
+
+  it('should return true if last two rolls add up to 10 and it is the bottom of the frame',function(){
+    resetGame();
+    bowling.frames.one.pins = 10;
+    bowling.topOfFrame=false;
+    expect(bowling.isSpare()).to.equal(true);
   });
+  it('should return false if the last two rolls add up to 10 and it is the top of the frame',function(){
+    resetGame();
+    bowling.topOfFrame = true
+    bowling.frames.one.pins = 10;
+    expect(bowling.isSpare()).to.equal(false);
+  })
 });
